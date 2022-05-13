@@ -49,7 +49,7 @@
         <li><a href="#warning">WARNING!!</a></li>
       </ul>
       <ul>
-        <li><a href="#conf_used"> .conf files used</a></li>
+        <li><a href="#conf_used">.conf files used</a></li>
       </ul>
     </li>
     <li>
@@ -91,7 +91,7 @@ This is not an official Splunk supported migration method, strategy or approach 
 
  Please communicate with stakeholders the previous points and risks.
 
-## .conf files used
+##.conf files used
 
 * [server.conf](https://docs.splunk.com/Documentation/Splunk/8.2.6/Admin/Serverconf)
 * [outputs.conf](https://docs.splunk.com/Documentation/Splunk/8.2.6/Admin/Outputsconf)
@@ -107,12 +107,37 @@ This is not an official Splunk supported migration method, strategy or approach 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+### Prep Windows and Linux servers
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
+You will need to update or set the environment variable SPLUNK_DB in you windows indexers and future linux indexers so your indexes.conf app which is pushed from the cluster manager is homogeneous across the cluster even though directory paths are referenced differently with each OS.
+
+This will be done in splunk-launch.conf for linux systems.
+* splunk-launch.conf
+#   Version 8.2.5
+
+# Modify the following line to suit the location of your Splunk install.
+# If unset, Splunk will use the parent of the directory containing the splunk
+# CLI executable.
+#
+SPLUNK_HOME=/opt/splunk
+
+# By default, Splunk stores its indexes under SPLUNK_HOME in the
+# var/lib/splunk subdirectory.  This can be overridden
+# here:
+#
+SPLUNK_DB=/splunkdata
+# Splunkd daemon name
+SPLUNK_SERVER_NAME=Splunkd
+
+# If SPLUNK_OS_USER is set, then Splunk service will only start
+# if the 'splunk [re]start [splunkd]' command is invoked by a user who
+# is, or can effectively become via setuid(2), $SPLUNK_OS_USER.
+# (This setting can be specified as username or as UID.)
+#
+# SPLUNK_OS_USER
+SPLUNK_OS_USER=splunk
+
+
   ```
 
 ### Installation
