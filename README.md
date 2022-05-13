@@ -49,7 +49,7 @@
         <li><a href="#warning">WARNING!!</a></li>
       </ul>
       <ul>
-        <li><a href="#conf_used">### .conf files used</a></li>
+        <li><a href="#conf_used"> .conf files used</a></li>
       </ul>
     </li>
     <li>
@@ -79,9 +79,19 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## WARNING!!
+This is not an official Splunk supported migration method, strategy or approach to move from Windows Indexers to Linux Indexers.  
+- This is completely unsupported and borderline experimental.
 
+- Without a full comprehensive understanding of how  splunk indexer clustering and multisite clustering works along with architecting and administering a distributed splunk environment, unexpected behavior, outages and worse case scenario irreversible data loss is possible.  
 
-### .conf files used
+- PLEASE PLEASE PLEASE... if there this is a mission critical system, please back up your indexer data just incase.
+
+- Please if possible test before launching in production.
+
+ Please communicate with stakeholders the previous points and risks.
+
+## .conf files used
 
 * [server.conf](https://docs.splunk.com/Documentation/Splunk/8.2.6/Admin/Serverconf)
 * [outputs.conf](https://docs.splunk.com/Documentation/Splunk/8.2.6/Admin/Outputsconf)
