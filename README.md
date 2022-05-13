@@ -144,112 +144,252 @@ SPLUNK_OS_USER=splunk
 <img src="images/win_splunk_db.png" alt="Logo" width="400" height="400">
 </a>
 
-### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+###Restart Splunk
+`$SPLUNK_HOME/bin/splunk restart`
 
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
+##Multisite clustering configuration
+All of the following steps under this section should be done back to back without restarting splunk.  Restarting splunk on any of the servers *(idxrs shs cm)* could result in an outage.  Pelase wait until the end to restart splunk on all servers.
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+###Cluster Manager Configuration
+<p align="center">
+  Apps
+  <br />
+  <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_multisite_master_base"><strong>org_multisite_master_base»</strong></a>
+  <br />
+    <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_cluster_master_indexerDiscovery_server/local"><strong>org_cluster_master_indexerDiscovery_server</strong></a>
+  <br />
+    <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_all_cluster_manager_summary_replication/local"><strong>org_all_cluster_manager_summary_replication</strong></a>
+    <br />
+    <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_all_cluster_managers_assign_primaries_all_sites"><strong>org_all_cluster_managers_assign_primaries_all_sites</strong></a>
+</p>
+####
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+server.conf
+[clustering]
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+summary_replication = true
+* Valid for both 'mode=manager' and 'mode=peer'.
+* Cluster Manager:
+  If set to true, summary replication is enabled.
+  If set to false, summary replication is disabled, but can be enabled
+  at runtime.
+  If set to disabled, summary replication is disabled. Summary replication
+  cannot be enabled at runtime.
+* Peers:
+  If set to true or false, there is no effect. The indexer follows
+  whatever setting is on the Cluster Manager.
+  If set to disabled, summary replication is disabled. The indexer does
+  no scanning of summaries (increased performance during peers joing
+  the cluster for large clusters).
+* Default: false (for both Cluster Manager and Peers)
 
 
+server.conf
 
-<!-- LICENSE -->
-## License
+[general]
+site = site1
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+[clustering]
+mode = master
+constrain_singlesite_buckets = false
+multisite = true
+available_sites = site1, site2
+cluster_label = awsgov_cluster1
+site_replication_factor = origin:2, site2:2, total:4
+site_search_factor = origin:2, site2:2, total:4
 
 
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+server.conf
+[clustering]
+assign_primaries_to_all_sites=true
 
 
+##############################
+Site 1 Windows Indexers#######
+###############################
+server.conf ###Single site configuration all sites
+[clustering]
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+mode = slave
+manager_uri = https://10.0.1.240:8089
+pass4SymmKey = $7$uQsenT0kCyXxb5S2Yb/YwEvkqJap4dnCnuHgMYTcNypZBfEz65zXwKcmwz3yag==
+
+
+[replication_port://8080]
+disabled = false
+
+
+server.conf ###multisite configuration
+[general]
+
+site = site1
+
+[clustering]
+multisite = true
+
+
+############################
+Site 2 Linux Indexers#######
+############################
+
+server.conf ###single site all sites
+[clustering]
+mode = slave
+manager_uri = https://10.0.1.240:8089
+pass4SymmKey = $7$u3kOfQCemNmrZwcL5wA07Ld9QtlpZAHoybv9TA4D57ULkGdk+4cCYV5xQDCYKg==
+
+
+[replication_port://8080]
+disabled = false
+
+server.conf ###multi site
+
+[general]
+site = site2
+
+[clustering]
+multisite = true
+
+################
+Search Heads#######
+#################
+
+outputs.conf ### all sites
+
+[tcpout]
+defaultGroup = indexcluster1
+maxQueueSize = 7MB
+useACK = true
+
+ forceTimebasedAutoLB = true
+
+[tcpout:indexcluster1]
+
+
+indexerDiscovery = clustermaster1
+
+[indexer_discovery:clustermaster1]
+
+pass4SymmKey = clearshark123!
+
+
+
+manager_uri = https://10.0.1.240:8089
+
+server.conf ### all sites
+
+[indexer_discovery]
+pass4SymmKey = clearshark123!
+
+
+server.conf ### all sites
+
+[clustering]
+mode = searchhead
+manager_uri = clustermanager:one
+
+[clustermanager:one]
+manager_uri=https://10.0.1.240:8089
+pass4SymmKey = clearshark123!
+
+
+server.conf ### multisite configuration
+
+server.conf #### multisite configuration
+
+[clustermanager:one]
+multisite = true
+site = site1
+
+################
+Forwarders#######
+#################
+outputs.conf ### multisite configuration
+
+[tcpout]
+defaultGroup = indexcluster1
+
+maxQueueSize = 7MB
+useACK = true
+
+forceTimebasedAutoLB = true
+
+[tcpout:indexcluster1]
+
+
+indexerDiscovery = clustermanager1
+
+[indexer_discovery:clustermanager1]
+
+pass4SymmKey = clearshark123!
+
+
+master_uri = https://10.0.1.240:8089
+
+
+server.conf ### multisite configuration
+
+[general]
+site = site1
+
+
+Commands
+
+/opt/splunk/bin/splunk offline
+/opt/splunk/bin/splunk fsck scan --all-buckets-all-indexes
+/opt/splunk/bin/splunk fsck repair --all-buckets-all-indexes
+/opt/splunk/bin/splunk fsck scan --include-rawdata --all-buckets-all-indexes
+
+Change Search head affinity to site 2
+
+
+server.conf #### multisite configuration
+
+[clustermanager:one]
+multisite = true
+site = site2
+
+You may need to doing another iteration of fsck repair --all-buckets-all-indexes
+
+server.conf ####
+
+#####Cluster Manager #####
+###########################
+
+[general]
+site = site2
+
+[clustering]
+mode = master
+constrain_singlesite_buckets = false
+multisite = true
+available_sites = site2
+cluster_label = awsgov_cluster1
+site_replication_factor = origin:2, total:2
+site_search_factor = origin:2, total:2
+
+site_mappings = site1:site2
+
+restart cluster manager
+
+stop splunk on windows indexers
+
+fsck any remaining corrupted buckets
+
+https://community.splunk.com/t5/Deployment-Architecture/Question-How-does-Cluster-Master-decide-Primary-searchable-copy/m-p/311222
+
+In non muli-site clustering, its either 0x0, or 0xFFFFFFFF , basically primary or not primary.
+
+The individual bits are only relevant in multi-site clustering.
+The flags is a 64 bit bitmask, with the smallest bit corresponding to Primary for site0. The second smallest would be primary for site1, the third for site2, and so on....so 0x0 = primary for nothing (searches from any site will not get results for this bucket on this peer)
+
+Bucket marked 0x1 = searches that come from searchheads with site=0 will get results! (primary for site0)
+Bucket marked 0x2 = primary for site1, all site=site1 searches will get results from these buckets
+Bucket marked 0x3 == (0x1+0x2) primary for site0 + site1, so searches from site0 SearchHeads and site1 searchheads will get results for this bucket.
+
+On the cluster/master/buckets/BID endpoint, the masks should add up to whatever the mutl-site config is
+for example, if We have available_sites=site2,site3, then the mask will need to have 0x1 (site0), 0x4(site2), 0x8 (site3) distributed among its indexers. in this example, if search_factor=1, then only 1 bucket will be searchable and should get assigned all the flags (0x13)
