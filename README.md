@@ -285,11 +285,17 @@ site = site1
 multisite = true
 
 ```
-############################
-Site 2 Linux Indexers#######
-############################
 
-server.conf ###single site all sites
+### Site 2 Linux Indexers
+Apps used in configuring Linux Indexers for Multisite clustering
+<p align="left">
+  Apps
+  <br />
+  <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_site_2_indexer_base"><strong>org_site_2_indexer_base</strong></a>
+  <br />
+
+server.conf
+```
 [clustering]
 mode = slave
 manager_uri = https://10.0.1.240:8089
@@ -298,20 +304,32 @@ pass4SymmKey = $7$u3kOfQCemNmrZwcL5wA07Ld9QtlpZAHoybv9TA4D57ULkGdk+4cCYV5xQDCYKg
 
 [replication_port://8080]
 disabled = false
+```
 
-server.conf ###multi site
+#### org_site_2_indexer_base
+server.conf
 
+```
 [general]
 site = site2
 
 [clustering]
 multisite = true
+```
 
-################
-Search Heads#######
-#################
 
-outputs.conf ### all sites
+### Search Heads
+Apps used in configuring Search Heads for Multisite clustering
+<p align="left">
+  Apps
+  <br />
+  <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_site_1_search_base"><strong>org_site_1_search_base</strong></a>
+  <br />
+  <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_cluster_forwarders_indexerDiscovery_outputs"><strong>org_cluster_forwarders_indexerDiscovery_outputs</strong></a>
+  <br />
+
+outputs.conf
+```
 
 [tcpout]
 defaultGroup = indexcluster1
@@ -332,15 +350,19 @@ pass4SymmKey = clearshark123!
 
 
 manager_uri = https://10.0.1.240:8089
+```
 
-server.conf ### all sites
+server.conf
+
+```
 
 [indexer_discovery]
 pass4SymmKey = clearshark123!
 
+```
+server.conf
 
-server.conf ### all sites
-
+```
 [clustering]
 mode = searchhead
 manager_uri = clustermanager:one
@@ -349,19 +371,26 @@ manager_uri = clustermanager:one
 manager_uri=https://10.0.1.240:8089
 pass4SymmKey = clearshark123!
 
+```
 
-server.conf ### multisite configuration
-
-server.conf #### multisite configuration
-
+server.conf
+```
 [clustermanager:one]
 multisite = true
 site = site1
+```
 
-################
-Forwarders#######
-#################
-outputs.conf ### multisite configuration
+### Forwarders
+Apps used in configuring forwarders for Multisite clustering site affinity
+<p align="left">
+  Apps
+  <br />
+  <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_site_1_forwarder_affinity"><strong>org_site_1_forwarder_affinity</strong></a>
+  <br />
+  <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_cluster_forwarders_indexerDiscovery_outputs"><strong>org_cluster_forwarders_indexerDiscovery_outputs</strong></a>
+  <br />
+outputs.conf
+```
 
 [tcpout]
 defaultGroup = indexcluster1
@@ -383,35 +412,65 @@ pass4SymmKey = clearshark123!
 
 master_uri = https://10.0.1.240:8089
 
+```
+server.conf
 
-server.conf ### multisite configuration
-
+```
 [general]
 site = site1
+```
 
-
-Commands
-
+## Fixing Buckets
+### First pass
+#### Commands
+```
 /opt/splunk/bin/splunk offline
 /opt/splunk/bin/splunk fsck scan --all-buckets-all-indexes
 /opt/splunk/bin/splunk fsck repair --all-buckets-all-indexes
 /opt/splunk/bin/splunk fsck scan --include-rawdata --all-buckets-all-indexes
+```
 
-Change Search head affinity to site 2
+### Change Search head affinity to site 2
 
 
-server.conf #### multisite configuration
-
+server.conf
+```
 [clustermanager:one]
 multisite = true
 site = site2
+```
+`bin/splunk restart`
+### Change forwarder affinity to site 2
+This will force all forwarders to start sending data to the new linux indexers in mulitsite index cluster site2.
 
-You may need to doing another iteration of fsck repair --all-buckets-all-indexes
+server.conf
 
-server.conf ####
+```
+[general]
+site = site2
+```
+`bin/splunk restart`
 
-#####Cluster Manager #####
-###########################
+### Offline Windows Indexers in site 1
+Run the following command on each windows indexer
+`splunk.exe offline `
+
+
+### Second pass
+#### Commands
+`/opt/splunk/bin/splunk offline`
+
+You may need to doing another iteration of `bin/splunk/fsck repair --all-buckets-all-indexes` or you can run a `bin/splunk/fsck scan --all-buckets-all-indexes` and note which buckets are still corrupted after the first repair pass.  After which you can run `bin/splunk/fsck --one-bucket --bucket-path='/splunkdata/GUID-bucketid-earlestepoc-latestepoc'`
+
+###Cluster Manager
+#### Remove Indexer peers
+Remove Windows Indexers from cluster peer list
+`./splunk remove cluster-peers`
+
+#### Revert Multisite cluster back to single site
+Remove the following apps
+
+
 
 [general]
 site = site2
@@ -429,9 +488,7 @@ site_mappings = site1:site2
 
 restart cluster manager
 
-stop splunk on windows indexers
 
-fsck any remaining corrupted buckets
 
 https://community.splunk.com/t5/Deployment-Architecture/Question-How-does-Cluster-Master-decide-Primary-searchable-copy/m-p/311222
 
