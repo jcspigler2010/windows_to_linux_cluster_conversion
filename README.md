@@ -59,11 +59,11 @@
         <li><a href="#Linux-Servers-SPLUNK-DB">Linux Servers SPLUNK DB</a></li>
         <li><a href="#Windows-Local-Configurations">Windows Local Configurations</a></li>
       </ul>
-      <li><a href="#multisite_clustering_conf">Multisite clustering configuration</a></li>
+      <li><a href="#Multisite-clustering-configuration">Multisite clustering configuration</a></li>
         <ul>
-        <li><a href="#cm_config">Cluster Manager Configuration</a></li>
+        <li><a href="#Cluster-Manager-Configuration">Cluster Manager Configuration</a></li>
         <ul>
-        <li><a href="#org_all_cluster_manager_summary_replication">org_all_cluster_manager_summary_replication</a></li>
+        <li><a href="#org-all-cluster-manager-summary-replication">org_all_cluster_manager_summary_replication</a></li>
         <li><a href="#org_multisite_master_base»">org_multisite_master_base»</a></li>
         <li><a href="#org_all_cluster_managers_assign_primaries_all_sites">org_all_cluster_managers_assign_primaries_all_sites</a></li>
         <li><a href="#org_cluster_master_indexerDiscovery_server">org_cluster_master_indexerDiscovery_server</a></li>
