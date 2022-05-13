@@ -79,7 +79,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## WARNING!!
+### WARNING!!
 This is not an official Splunk supported migration method, strategy or approach to move from Windows Indexers to Linux Indexers.  
 - This is completely unsupported and borderline experimental.
 
@@ -91,7 +91,7 @@ This is not an official Splunk supported migration method, strategy or approach 
 
  Please communicate with stakeholders the previous points and risks.
 
-##.conf files used
+## .conf files used
 
 * [server.conf](https://docs.splunk.com/Documentation/Splunk/8.2.6/Admin/Serverconf)
 * [outputs.conf](https://docs.splunk.com/Documentation/Splunk/8.2.6/Admin/Outputsconf)
@@ -111,6 +111,7 @@ To get a local copy up and running follow these simple example steps.
 
 You will need to update or set the environment variable SPLUNK_DB in you windows indexers and future linux indexers so your indexes.conf app which is pushed from the cluster manager is homogeneous across the cluster even though directory paths are referenced differently with each OS.
 
+### Linux Servers SPLUNK_DB
 This will be done in splunk-launch.conf for linux systems.
 * splunk-launch.conf
 #   Version 8.2.5
@@ -119,7 +120,7 @@ This will be done in splunk-launch.conf for linux systems.
 # If unset, Splunk will use the parent of the directory containing the splunk
 # CLI executable.
 #
-SPLUNK_HOME=/opt/splunk
+`SPLUNK_HOME=/opt/splunk`
 
 # By default, Splunk stores its indexes under SPLUNK_HOME in the
 # var/lib/splunk subdirectory.  This can be overridden
@@ -127,7 +128,7 @@ SPLUNK_HOME=/opt/splunk
 #
 SPLUNK_DB=/splunkdata
 # Splunkd daemon name
-SPLUNK_SERVER_NAME=Splunkd
+`SPLUNK_SERVER_NAME=Splunkd`
 
 # If SPLUNK_OS_USER is set, then Splunk service will only start
 # if the 'splunk [re]start [splunkd]' command is invoked by a user who
@@ -135,10 +136,13 @@ SPLUNK_SERVER_NAME=Splunkd
 # (This setting can be specified as username or as UID.)
 #
 # SPLUNK_OS_USER
-SPLUNK_OS_USER=splunk
+`SPLUNK_OS_USER=splunk`
 
 
-  ```
+###Windows Local Configurations
+
+<img src="images/win_splunk_db.png" alt="Logo" width="80" height="80">
+</a>
 
 ### Installation
 
