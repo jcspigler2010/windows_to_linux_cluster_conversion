@@ -49,13 +49,13 @@
         <li><a href="#warning">WARNING!!</a></li>
       </ul>
       <ul>
-        <li><a href="#conf_used">.conf files used</a></li>
+        <li><a href="#conf_files_used">conf files used</a></li>
       </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prep">Prep Windows and Linux servers</a></li>
+        <li><a href="#prep_windows_and_linux_servers">Prep Windows and Linux servers</a></li>
         <li><a href="#linux_servers_db">Linux Servers SPLUNK_DB</a></li>
         <li><a href="#win_servers_db">Windows Local Configurations</a></li>
       </ul>
