@@ -155,7 +155,7 @@ SPLUNK_OS_USER=splunk
 All of the following steps under this section should be done back to back without restarting splunk.  Restarting splunk on any of the servers *(idxrs shs cm)* could result in an outage.  Pelase wait until the end to restart splunk on all servers.
 
 ###Cluster Manager Configuration
-<p align="center">
+<p align="left">
   Apps
   <br />
   <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_multisite_master_base"><strong>org_multisite_master_base»</strong></a>
@@ -166,9 +166,12 @@ All of the following steps under this section should be done back to back withou
     <br />
     <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_all_cluster_managers_assign_primaries_all_sites"><strong>org_all_cluster_managers_assign_primaries_all_sites</strong></a>
 </p>
-####
+
+####org_all_cluster_manager_summary_replication
+Place org_all_cluster_manager_summary_replication app in the cluster manager's etc/app directory.  Update values to reflect your enviornment
 
 server.conf
+```
 [clustering]
 
 summary_replication = true
@@ -186,10 +189,13 @@ summary_replication = true
   no scanning of summaries (increased performance during peers joing
   the cluster for large clusters).
 * Default: false (for both Cluster Manager and Peers)
+```
 
+####org_multisite_master_base»
+Place org_multisite_master_base» app in the cluster manager's etc/app directory.  Update values to reflect your enviornment
 
 server.conf
-
+```
 [general]
 site = site1
 
@@ -202,10 +208,49 @@ cluster_label = awsgov_cluster1
 site_replication_factor = origin:2, site2:2, total:4
 site_search_factor = origin:2, site2:2, total:4
 
+```
+####org_all_cluster_managers_assign_primaries_all_sites>>
+Place org_all_cluster_managers_assign_primaries_all_sites>> app in the cluster manager's etc/app directory.  
+
 
 server.conf
+```
 [clustering]
 assign_primaries_to_all_sites=true
+```
+*OPTIONAL*
+
+####org_cluster_master_indexerDiscovery_server>>
+Place org_cluster_master_indexerDiscovery_server>> app in the cluster manager's etc/app directory.  This is optional if you want to use indexer discovery to guide data forwarding
+
+server.conf
+```
+[indexer_discovery]
+pass4SymmKey = clearshark123!
+# * Security key shared between master node and forwarders.
+# * If specified here, the same value must also be specified on all forwarders
+#  connecting to this master.
+# * Unencrypted passwords must not begin with "$1$", as this is used by
+#  Splunk software to determine if the password is already encrypted.
+
+# polling_rate = <integer>
+# * A value between 1 to 10. This value affects the forwarder polling
+#  frequency to achieve the desired polling rate. The number of connected
+#  forwarders is also taken into consideration.
+# * The formula used to determine effective polling interval,
+#  in Milliseconds, is:
+#  (number_of_forwarders/polling_rate + 30 seconds) * 1000
+# * Default: 10
+
+# indexerWeightByDiskCapacity = <boolean>
+# * If set to true, it instructs the forwarders to use weighted load
+#  balancing. In weighted load balancing, load balancing is based on the
+#  total disk capacity  of the target indexers, with the forwarder streaming
+#  more data to indexers with larger disks.
+# * The traffic sent to each indexer is based on the ratio of:
+#   indexer_disk_capacity/total_disk_capacity_of_indexers_combined
+# * Default: false
+```
 
 
 ##############################
