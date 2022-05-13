@@ -139,22 +139,22 @@ SPLUNK_SERVER_NAME=Splunkd
 SPLUNK_OS_USER=splunk
 ```
 
-###Windows Local Configurations
+### Windows Local Configurations
 
 <img src="images/win_splunk_db.png" alt="Logo" width="400" height="400">
 </a>
 
 
 
-###Restart Splunk
+### Restart Splunk
 `$SPLUNK_HOME/bin/splunk restart`
 
 
 
-##Multisite clustering configuration
+## Multisite clustering configuration
 All of the following steps under this section should be done back to back without restarting splunk.  Restarting splunk on any of the servers *(idxrs shs cm)* could result in an outage.  Pelase wait until the end to restart splunk on all servers.
 
-###Cluster Manager Configuration
+### Cluster Manager Configuration
 <p align="left">
   Apps
   <br />
@@ -167,7 +167,7 @@ All of the following steps under this section should be done back to back withou
     <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_all_cluster_managers_assign_primaries_all_sites"><strong>org_all_cluster_managers_assign_primaries_all_sites</strong></a>
 </p>
 
-####org_all_cluster_manager_summary_replication
+#### org_all_cluster_manager_summary_replication
 Place org_all_cluster_manager_summary_replication app in the cluster manager's etc/app directory.  Update values to reflect your enviornment
 
 server.conf
@@ -191,7 +191,7 @@ summary_replication = true
 * Default: false (for both Cluster Manager and Peers)
 ```
 
-####org_multisite_master_base»
+#### org_multisite_master_base»
 Place org_multisite_master_base» app in the cluster manager's etc/app directory.  Update values to reflect your enviornment
 
 server.conf
@@ -209,7 +209,7 @@ site_replication_factor = origin:2, site2:2, total:4
 site_search_factor = origin:2, site2:2, total:4
 
 ```
-####org_all_cluster_managers_assign_primaries_all_sites>>
+#### org_all_cluster_managers_assign_primaries_all_sites>>
 Place org_all_cluster_managers_assign_primaries_all_sites>> app in the cluster manager's etc/app directory.  
 
 
@@ -220,7 +220,7 @@ assign_primaries_to_all_sites=true
 ```
 *OPTIONAL*
 
-####org_cluster_master_indexerDiscovery_server>>
+#### org_cluster_master_indexerDiscovery_server>>
 Place org_cluster_master_indexerDiscovery_server>> app in the cluster manager's etc/app directory.  This is optional if you want to use indexer discovery to guide data forwarding
 
 server.conf
@@ -253,10 +253,19 @@ pass4SymmKey = clearshark123!
 ```
 
 
-##############################
-Site 1 Windows Indexers#######
-###############################
-server.conf ###Single site configuration all sites
+
+### Site 1 Windows Indexers
+Apps used in configuring Windows Indexers for Multisite clustering
+<p align="left">
+  Apps
+  <br />
+  <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_site_1_indexer_base"><strong>org_site_1_indexer_base</strong></a>
+  <br />
+
+Ensure your single site cluster is healthy, operational and setup properly.  Below is an example configuration for an indexer peer.
+
+server.conf
+```
 [clustering]
 
 mode = slave
@@ -266,9 +275,11 @@ pass4SymmKey = $7$uQsenT0kCyXxb5S2Yb/YwEvkqJap4dnCnuHgMYTcNypZBfEz65zXwKcmwz3yag
 
 [replication_port://8080]
 disabled = false
+```
 
-
-server.conf ###multisite configuration
+#### multisite configuration
+server.conf
+```
 [general]
 
 site = site1
@@ -276,7 +287,7 @@ site = site1
 [clustering]
 multisite = true
 
-
+```
 ############################
 Site 2 Linux Indexers#######
 ############################
