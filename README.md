@@ -114,13 +114,13 @@ You will need to update or set the environment variable SPLUNK_DB in you windows
 ### Linux Servers SPLUNK_DB
 This will be done in splunk-launch.conf for linux systems.
 * splunk-launch.conf
-#   Version 8.2.5
+```#   Version 8.2.5
 
 # Modify the following line to suit the location of your Splunk install.
 # If unset, Splunk will use the parent of the directory containing the splunk
 # CLI executable.
 #
-`SPLUNK_HOME=/opt/splunk`
+SPLUNK_HOME=/opt/splunk
 
 # By default, Splunk stores its indexes under SPLUNK_HOME in the
 # var/lib/splunk subdirectory.  This can be overridden
@@ -128,7 +128,7 @@ This will be done in splunk-launch.conf for linux systems.
 #
 SPLUNK_DB=/splunkdata
 # Splunkd daemon name
-`SPLUNK_SERVER_NAME=Splunkd`
+SPLUNK_SERVER_NAME=Splunkd
 
 # If SPLUNK_OS_USER is set, then Splunk service will only start
 # if the 'splunk [re]start [splunkd]' command is invoked by a user who
@@ -136,12 +136,12 @@ SPLUNK_DB=/splunkdata
 # (This setting can be specified as username or as UID.)
 #
 # SPLUNK_OS_USER
-`SPLUNK_OS_USER=splunk`
-
+SPLUNK_OS_USER=splunk
+```
 
 ###Windows Local Configurations
 
-<img src="images/win_splunk_db.png" alt="Logo" width="80" height="80">
+<img src="images/win_splunk_db.png" alt="Logo" width="400" height="400">
 </a>
 
 ### Installation
