@@ -55,16 +55,27 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#prep">Prep Windows and Linux servers</a></li>
+        <li><a href="#linux_servers_db">Linux Servers SPLUNK_DB</a></li>
+        <li><a href="#win_servers_db">Windows Local Configurations</a></li>
+      </ul>
+      <li><a href="#multisite_clustering_conf">Multisite clustering configuration</a></li>
+        <ul>
+        <li><a href="#cm_config">Cluster Manager Configuration</a></li>
+        <ul>
+        <li><a href="#org_all_cluster_manager_summary_replication">org_all_cluster_manager_summary_replication</a></li>
+        <li><a href="#org_multisite_master_base»">org_multisite_master_base»</a></li>
+        <li><a href="#org_all_cluster_managers_assign_primaries_all_sites">org_all_cluster_managers_assign_primaries_all_sites</a></li>
+        <li><a href="#org_cluster_master_indexerDiscovery_server">org_cluster_master_indexerDiscovery_server</a></li>
+        </ul>
+        <li><a href="#Site_1_win_indexers">Site 1 Windows Indexers</a></li>
+          <ul>
+            <li><a href="#multisite_configuration">multisite configuration</a></li>
+          </ul>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+
   </ol>
 </details>
 
@@ -329,8 +340,8 @@ Apps used in configuring Search Heads for Multisite clustering
   <br />
 
 outputs.conf
-```
 
+```
 [tcpout]
 defaultGroup = indexcluster1
 maxQueueSize = 7MB
@@ -390,8 +401,8 @@ Apps used in configuring forwarders for Multisite clustering site affinity
   <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_cluster_forwarders_indexerDiscovery_outputs"><strong>org_cluster_forwarders_indexerDiscovery_outputs</strong></a>
   <br />
 outputs.conf
-```
 
+```
 [tcpout]
 defaultGroup = indexcluster1
 
@@ -468,38 +479,22 @@ Remove Windows Indexers from cluster peer list
 `./splunk remove cluster-peers`
 
 #### Revert Multisite cluster back to single site
-Remove the following apps
+Remove the following apps from CM, UFS, SHs and Indexers
+<p align="left">
+<br />
+<a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_site_1_forwarder_affinity"><strong>org_site_1_forwarder_affinity</strong></a>
+<br />
+<br />
+<a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_site_1_search_base"><strong>org_site_1_search_base</strong></a>
+<br />
+<a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_multisite_master_base"><strong>org_multisite_master_base»</strong></a>
+<br />
+<br />
+<a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_site_2_indexer_base"><strong>org_site_2_indexer_base</strong></a>
+<br />
 
+Restart Splunk
 
+For official documentation on how to revert multi site cluster back to single site, see the following
 
-[general]
-site = site2
-
-[clustering]
-mode = master
-constrain_singlesite_buckets = false
-multisite = true
-available_sites = site2
-cluster_label = awsgov_cluster1
-site_replication_factor = origin:2, total:2
-site_search_factor = origin:2, total:2
-
-site_mappings = site1:site2
-
-restart cluster manager
-
-
-
-https://community.splunk.com/t5/Deployment-Architecture/Question-How-does-Cluster-Master-decide-Primary-searchable-copy/m-p/311222
-
-In non muli-site clustering, its either 0x0, or 0xFFFFFFFF , basically primary or not primary.
-
-The individual bits are only relevant in multi-site clustering.
-The flags is a 64 bit bitmask, with the smallest bit corresponding to Primary for site0. The second smallest would be primary for site1, the third for site2, and so on....so 0x0 = primary for nothing (searches from any site will not get results for this bucket on this peer)
-
-Bucket marked 0x1 = searches that come from searchheads with site=0 will get results! (primary for site0)
-Bucket marked 0x2 = primary for site1, all site=site1 searches will get results from these buckets
-Bucket marked 0x3 == (0x1+0x2) primary for site0 + site1, so searches from site0 SearchHeads and site1 searchheads will get results for this bucket.
-
-On the cluster/master/buckets/BID endpoint, the masks should add up to whatever the mutl-site config is
-for example, if We have available_sites=site2,site3, then the mask will need to have 0x1 (site0), 0x4(site2), 0x8 (site3) distributed among its indexers. in this example, if search_factor=1, then only 1 bucket will be searchable and should get assigned all the flags (0x13)
+https://docs.splunk.com/Documentation/Splunk/8.2.6/Indexer/Converttosinglesite
