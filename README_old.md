@@ -1,4 +1,8 @@
+
+
+
 To Migrate from Windows Index cluster to Linux Index cluster
+
 
 Use Volumes and SPLUNK_DB
 
