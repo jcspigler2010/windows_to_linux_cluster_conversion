@@ -80,13 +80,13 @@
       </ul>
     </li>
 
-    <li><a href="#Fixing-Buckets"> Fixing Buckets</a>
+    <li><a href="#Fixing-Buckets"> Fixing Buckets</a></li>
     <ul>
       <li><a href="#First-pass">First pass</a></li>
       <ul>
         <li><a href="#Commands">Commands</a></li>
+      </ul>
     </ul>
-    </li>
     <li><a href="#Change-Search-head-affinity-to-site-2">Change Search head affinity to site 2</a></li>
     <li><a href="#change-forwarder-affinity-to-site-2">change forwarder affinity to site 2</a></li>
     <li><a href="#Offline-Windows-Indexers-in-site-1">Offline-Windows-Indexers-in-site-1</a></li>
