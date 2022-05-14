@@ -26,7 +26,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">windows_to_linux_cluster_conversion</h3>
+<h3 align="center">Windows Index Cluster to Linux Index Cluster</h3>
 
   <p align="center">
     <br />
