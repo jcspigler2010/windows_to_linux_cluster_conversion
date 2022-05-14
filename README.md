@@ -63,19 +63,42 @@
         <ul>
         <li><a href="#Cluster-Manager-Configuration">Cluster Manager Configuration</a></li>
         <ul>
-        <li><a href="#org-all-cluster-manager-summary-replication">org_all_cluster_manager_summary_replication</a></li>
-        <li><a href="#org_multisite_master_base»">org_multisite_master_base»</a></li>
-        <li><a href="#org_all_cluster_managers_assign_primaries_all_sites">org_all_cluster_managers_assign_primaries_all_sites</a></li>
-        <li><a href="#org_cluster_master_indexerDiscovery_server">org_cluster_master_indexerDiscovery_server</a></li>
+        <li><a href="#org-all-cluster-manager-summary-replication">org all cluster manager summary replication</a></li>
+        <li><a href="#org-multisite-master-base»">org multisite master base»</a></li>
+        <li><a href="#org-all-cluster-managers-assign-primaries-all-sites">org all cluster managers assign primaries all sites</a></li>
+        <li><a href="#org-cluster-master-indexerDiscovery-server">org cluster master indexerDiscovery server</a></li>
         </ul>
-        <li><a href="#Site_1_win_indexers">Site 1 Windows Indexers</a></li>
+        <li><a href="#Site-1-windows-indexers">Site 1 Windows Indexers</a></li>
           <ul>
-            <li><a href="#multisite_configuration">multisite configuration</a></li>
-          </ul>
+            <li><a href="#multisite-configuration">multisite configuration</a></li>
+        </ul>
+        <li><a href="#Site-2-linux-indexers">Site 2 Linux Indexers</a></li>
+          <ul>
+            <li><a href="#org-site-2-indexer-base">org site 2 indexer base</a></li>
+        </ul>
+        <li><a href="#search-heads">search heads</a></li>
+        <li><a href="#Forwarders">Forwarders</a></li>
+        <li><a href="#Fixing-Buckets"> Fixing Buckets</a></li>
+        <ul>
+          <li><a href="#First-pass">First pass</a></li>
+          <ul>
+            <li><a href="#Commands">Commands</a></li>
+        </ul>
+        <li><a href="#Change-Search-head-affinity-to-site-2">Change Search head affinity to site 2</a></li>
+        <li><a href="#change-forwarder-affinity-to-site-2">change forwarder affinity to site 2</a></li>
+        <li><a href="#Offline-Windows-Indexers-in-site-1">Offline-Windows-Indexers-in-site-1</a></li>
+        <li><a href="#Second-pass">Second pass</a></li>
+        <ul>
+        <li><a href="#Commands">Commands</a></li>
+        </ul>
+        <li><a href="#Cluster-Manager">Cluster Manager</a></li>
+        <ul>
+        <li><a href="#Remove-Indexer-peers">Remove Indexer peers</a></li>
+        </ul>
+        <li><a href="#Revert-Multisite-cluster-back-to-single-site">Revert Multisite cluster back to single site</a></li>
+      </ul>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-
   </ol>
 </details>
 
@@ -175,7 +198,7 @@ All of the following steps under this section should be done back to back withou
     <a href="https://github.com/jcspigler2010/windows_to_linux_cluster_conversion/tree/master/apps/org_all_cluster_managers_assign_primaries_all_sites"><strong>org_all_cluster_managers_assign_primaries_all_sites</strong></a>
 </p>
 
-#### org_all_cluster_manager_summary_replication
+#### org all cluster manager summary replication
 Place org_all_cluster_manager_summary_replication app in the cluster manager's etc/app directory.  Update values to reflect your enviornment
 
 server.conf
@@ -199,7 +222,7 @@ summary_replication = true
 * Default: false (for both Cluster Manager and Peers)
 ```
 
-#### org_multisite_master_base»
+#### org multisite master base»
 Place org_multisite_master_base» app in the cluster manager's etc/app directory.  Update values to reflect your enviornment
 
 server.conf
@@ -217,7 +240,7 @@ site_replication_factor = origin:2, site2:2, total:4
 site_search_factor = origin:2, site2:2, total:4
 
 ```
-#### org_all_cluster_managers_assign_primaries_all_sites>>
+#### org all cluster managers assign primaries all sites>>
 Place org_all_cluster_managers_assign_primaries_all_sites>> app in the cluster manager's etc/app directory.  
 
 
@@ -228,7 +251,7 @@ assign_primaries_to_all_sites=true
 ```
 *OPTIONAL*
 
-#### org_cluster_master_indexerDiscovery_server>>
+#### org cluster master indexerDiscovery server>>
 Place org_cluster_master_indexerDiscovery_server>> app in the cluster manager's etc/app directory.  This is optional if you want to use indexer discovery to guide data forwarding
 
 server.conf
@@ -317,7 +340,7 @@ pass4SymmKey = $7$u3kOfQCemNmrZwcL5wA07Ld9QtlpZAHoybv9TA4D57ULkGdk+4cCYV5xQDCYKg
 disabled = false
 ```
 
-#### org_site_2_indexer_base
+#### org site 2 indexer base
 server.conf
 
 ```
