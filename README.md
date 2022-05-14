@@ -90,7 +90,6 @@
     <li><a href="#change-forwarder-affinity-to-site-2">change forwarder affinity to site 2</a></li>
     <li><a href="#Offline-Windows-Indexers-in-site-1">Offline-Windows-Indexers-in-site-1</a></li>
     </ul>
-    <ul>
     <li><a href="#Second-pass">Second pass</a></li>
     <ul>
     <li><a href="#Commands">Commands</a></li>
@@ -100,7 +99,6 @@
     <li><a href="#Remove-Indexer-peers">Remove Indexer peers</a></li>
     </ul>
     <li><a href="#Revert-Multisite-cluster-back-to-single-site">Revert Multisite cluster back to single site</a></li>
-    </ul>
     </ul>
   </ol>
 </details>
