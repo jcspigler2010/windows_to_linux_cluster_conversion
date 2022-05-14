@@ -78,7 +78,6 @@
         <li><a href="#search-heads">search heads</a></li>
         <li><a href="#Forwarders">Forwarders</a></li>
       </ul>
-      </ul>
     </li>
     <li>
     <li><a href="#Fixing-Buckets"> Fixing Buckets</a></li>
