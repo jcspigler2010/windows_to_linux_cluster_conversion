@@ -77,27 +77,28 @@
         </ul>
         <li><a href="#search-heads">search heads</a></li>
         <li><a href="#Forwarders">Forwarders</a></li>
-        <li><a href="#Fixing-Buckets"> Fixing Buckets</a></li>
       </ul>
-
+      </ul>
+    </li>
+    <li>
+    <li><a href="#Fixing-Buckets"> Fixing Buckets</a></li>
+    <ul>
+      <li><a href="#First-pass">First pass</a></li>
       <ul>
-        <li><a href="#First-pass">First pass</a></li>
-        <ul>
-          <li><a href="#Commands">Commands</a></li>
-      </ul>
-      <li><a href="#Change-Search-head-affinity-to-site-2">Change Search head affinity to site 2</a></li>
-      <li><a href="#change-forwarder-affinity-to-site-2">change forwarder affinity to site 2</a></li>
-      <li><a href="#Offline-Windows-Indexers-in-site-1">Offline-Windows-Indexers-in-site-1</a></li>
-      <li><a href="#Second-pass">Second pass</a></li>
-      <ul>
-      <li><a href="#Commands">Commands</a></li>
-      </ul>
-      <li><a href="#Cluster-Manager">Cluster Manager</a></li>
-      <ul>
-      <li><a href="#Remove-Indexer-peers">Remove Indexer peers</a></li>
-      </ul>
-      <li><a href="#Revert-Multisite-cluster-back-to-single-site">Revert Multisite cluster back to single site</a></li>
-      </ul>
+        <li><a href="#Commands">Commands</a></li>
+    </ul>
+    <li><a href="#Change-Search-head-affinity-to-site-2">Change Search head affinity to site 2</a></li>
+    <li><a href="#change-forwarder-affinity-to-site-2">change forwarder affinity to site 2</a></li>
+    <li><a href="#Offline-Windows-Indexers-in-site-1">Offline-Windows-Indexers-in-site-1</a></li>
+    <li><a href="#Second-pass">Second pass</a></li>
+    <ul>
+    <li><a href="#Commands">Commands</a></li>
+    </ul>
+    <li><a href="#Cluster-Manager">Cluster Manager</a></li>
+    <ul>
+    <li><a href="#Remove-Indexer-peers">Remove Indexer peers</a></li>
+    </ul>
+    <li><a href="#Revert-Multisite-cluster-back-to-single-site">Revert Multisite cluster back to single site</a></li>
     </li>
   </ol>
 </details>
